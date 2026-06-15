@@ -1,15 +1,25 @@
 package mx.bmx.dtc.dtc_sender.entity;
 
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
 /**
  * Сумма операции
  *
- * @param currencyId - Идентификатор валюты
- * @param value - Сумма
+ * currencyId - Идентификатор валюты
+ * value - Сумма
  */
-public record Amount(@Size(max = 10) String currencyId, @Size(max = 30) BigDecimal value) {
+@Builder
+@Data
+@AllArgsConstructor
+public class Amount {
+    @Size(max = 10)
+    private String currencyId;
 
+    @Size(max = 30)
+    private BigDecimal value;
 }

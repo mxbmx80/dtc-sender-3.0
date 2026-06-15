@@ -1,16 +1,35 @@
 package mx.bmx.dtc.dtc_sender.entity;
 
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * Информация об адресе.
- * @param country        Страна.
- * @param state          Область
- * @param city           Населенный пункт.
- * @param addressLines   Полный Адрес.
- * @param zipCode        Почтовый индекс.
+ *  country        Страна.
+ *  state          Область
+ *  city           Населенный пункт.
+ *  addressLines   Полный Адрес.
+ *  zipCode        Почтовый индекс.
  * */
-public record InAddress(@Size(max = 112) String country, @Size(max = 120) String state, @Size(max = 120) String city,
-                        @Size(max = 400) String addressLines, @Size(max = 12) String zipCode) {
+@Builder
+@Data
+@AllArgsConstructor
+public class InAddress {
+    @Size(max = 112)
+    private String country;
+    
+    @Size(max = 120)
+    private String state;
+    
+    @Size(max = 120)
+    private String city;
+    
+    @Size(max = 400)
+    private String addressLines;
+    
+    @Size(max = 12)
+    private String zipCode;
 }
 

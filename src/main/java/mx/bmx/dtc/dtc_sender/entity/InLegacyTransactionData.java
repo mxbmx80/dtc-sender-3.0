@@ -1,12 +1,19 @@
 package mx.bmx.dtc.dtc_sender.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 
 /**
  * Блок с данными по legacy-операциям.
- * @param debit  Информация о счете списания.
- * @param credit Информация о счете зачисления.
+ * debit  Информация о счете списания.
+ * credit Информация о счете зачисления.
  * */
-public record InLegacyTransactionData (InLegacyTransaction debit, InLegacyTransaction credit) {
+@Builder
+@Data
+@AllArgsConstructor
+public class InLegacyTransactionData {
+    private InLegacyTransaction debit;
 
+    private InLegacyTransaction credit;
 }

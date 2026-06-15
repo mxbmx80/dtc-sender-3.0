@@ -1,6 +1,8 @@
 package mx.bmx.dtc.dtc_sender.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 
 /**
  * Блок с данными по legacy-операциям.
@@ -8,13 +10,24 @@ import lombok.Builder;
  * Содержит информацию о транзакции, включая счет, сумму, комиссии и порядок выполнения.
  * </p>
  *
- * @param typeExecutionOrder Очередность выполнения операции по данной стороне транзакции.
- * @param account            Информация о счете, карте, депозитном договоре или ином объекте списания.
- * @param amount             Информация о сумме и валюте.
- * @param clientFee          Информация о сумме и валюте комиссии.
- * @param loanFee            Информация о комиссии за использование кредитных средств
- * @param typeExecutionOrder Очередность выполнения операции по данной стороне транзакции.
+ *  typeExecutionOrder Очередность выполнения операции по данной стороне транзакции.
+ *  account            Информация о счете, карте, депозитном договоре или ином объекте списания.
+ *  amount             Информация о сумме и валюте.
+ *  clientFee          Информация о сумме и валюте комиссии.
+ *  loanFee            Информация о комиссии за использование кредитных средств
+ *  typeExecutionOrder Очередность выполнения операции по данной стороне транзакции.
  */
-public record InLegacyTransaction(int typeExecutionOrder, InLegacyAccount account, InLegacyAmount amount, InLegacyFeeAmount clientFee, InLegacyFeeAmount loanFee) {
+@Builder
+@Data
+@AllArgsConstructor
+public class InLegacyTransaction {
+    private int typeExecutionOrder;
 
+    private InLegacyAccount account;
+
+    private InLegacyAmount amount;
+
+    private InLegacyFeeAmount clientFee;
+
+    private InLegacyFeeAmount loanFee;
 }

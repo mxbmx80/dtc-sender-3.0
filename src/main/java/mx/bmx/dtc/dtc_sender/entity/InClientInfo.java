@@ -1,11 +1,22 @@
 package mx.bmx.dtc.dtc_sender.entity;
 
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * Клиентский контекст.
- * @param  clientId         Идентификатор клиента.
- * @param  clientSystemId   Идентификатор системы, для которой указан идентификатор клиента.
+ * clientId         Идентификатор клиента.
+ * clientSystemId   Идентификатор системы, для которой указан идентификатор клиента.
  */
-public record InClientInfo(@Size(max = 50) String clientId, @Size(max = 50) String clientSystemId) {
+@Builder
+@Data
+@AllArgsConstructor
+public class InClientInfo {
+    @Size(max = 50)
+    private String clientId;
+
+    @Size(max = 50)
+    private String clientSystemId;
 }

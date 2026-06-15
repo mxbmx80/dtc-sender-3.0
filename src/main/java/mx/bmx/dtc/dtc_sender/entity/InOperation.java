@@ -1,16 +1,26 @@
 package mx.bmx.dtc.dtc_sender.entity;
 
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 
 import java.util.List;
 
 /**
  * Операция, проводимая в рамках одного запроса в ПП.
- * @param systemId    Система обслуживания счета
- * @param typeExecutionOrder Очередность выполнения операции по данной стороне транзакции.
- * @param entries     Атомарные операции.
+ *  systemId    Система обслуживания счета
+ *  typeExecutionOrder Очередность выполнения операции по данной стороне транзакции.
+ *  entries     Атомарные операции.
  * */
-public record InOperation(int typeExecutionOrder, @Size(max = 20) String systemId, List<InEntry> entries) {
+@Builder
+@Data
+@AllArgsConstructor
+public class InOperation {
+    private int typeExecutionOrder;
 
+    @Size(max = 20)
+    private  String systemId;
+
+    private List<InEntry> entries;
 }

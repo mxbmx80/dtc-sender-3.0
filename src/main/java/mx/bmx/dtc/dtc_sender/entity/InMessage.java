@@ -5,9 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * Входящий запрос на перевод.
+ *  techInfo               Техническая информация.
+ *  header                 Информация о заголовках.
+ *  transactionData        Финансовая транзакция.
+ *  legacyTransactionData  Блок с данными по legacy-операциям.
+ *  additionalInfo         Содержит дополнительные опциональные поля с информацией о транзакции.
+ */
 @Data
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 public class InMessage {
     @Valid
     private InTechInfo techInfo;

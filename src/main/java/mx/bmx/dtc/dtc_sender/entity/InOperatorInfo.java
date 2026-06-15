@@ -1,10 +1,18 @@
 package mx.bmx.dtc.dtc_sender.entity;
 
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * Информация об операторе.
- * @param operatorId    Идентификатора оператора.
+ * Идентификатора оператора
  */
-public record InOperatorInfo(@Size(max = 50) String operatorId) {
+@Builder
+@Data
+@AllArgsConstructor
+public class InOperatorInfo {
+    @Size(max = 50)
+    String operatorId;
 }

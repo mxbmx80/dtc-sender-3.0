@@ -1,11 +1,22 @@
 package mx.bmx.dtc.dtc_sender.entity;
 
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * Филиал
- * @param organizationId Идентификатор Филиала.
- * @param tspId          Идентификатор Торгово-сервисного предприятия.
+ *  organizationId Идентификатор Филиала.
+ *  tspId          Идентификатор Торгово-сервисного предприятия.
  * */
-public record InPartyIdentification(@Size(max = 50) String organizationId, @Size(max = 50)String tspId) {
+@Data
+@Builder
+@AllArgsConstructor
+public class InPartyIdentification {
+    @Size(max = 50)
+    private String organizationId;
+
+    @Size(max = 50)
+    private String tspId;
 }

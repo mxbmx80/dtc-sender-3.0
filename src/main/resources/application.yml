@@ -1,2 +1,17 @@
 server:
   port: 8888
+dtc:
+  connector:
+    enabled: ${DTC_CONNECTOR_ENABLED:true}
+    request-topic: ${DTC_CONN_REQ_TOPIC:in-message-topic}
+    kafka:
+      bootstrap-servers: localhost:9092
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+        acks: all # Гарантия доставки: all, 1, 0
+        retries: 3 # Количество повторных попыток при ошибке
+        properties:
+          spring.json.add.type.headers: false
+      security:
+        protocol: PLAINTEXT

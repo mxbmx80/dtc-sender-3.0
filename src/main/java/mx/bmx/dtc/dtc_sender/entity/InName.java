@@ -1,15 +1,30 @@
 package mx.bmx.dtc.dtc_sender.entity;
 
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 
 /**
  * Информация о человеке
- * @param firstName Имя.
- * @param middleName Отчество.
- * @param lastName Фамилия.
- * @param nameLine Полное ФИО.
+ *  firstName Имя.
+ *  middleName Отчество.
+ *  lastName Фамилия.
+ *  nameLine Полное ФИО.
  */
 @Builder
-public record InName(@Size(max = 50) String firstName, @Size(max = 50) String middleName, @Size(max = 50) String lastName, @Size(max = 210) String nameLine) {
+@Data
+@AllArgsConstructor
+public class InName {
+    @Size(max = 50)
+    private String firstName;
+
+    @Size(max = 50)
+    private String middleName;
+
+    @Size(max = 50)
+    private String lastName;
+
+    @Size(max = 210)
+    private String nameLine;
 }

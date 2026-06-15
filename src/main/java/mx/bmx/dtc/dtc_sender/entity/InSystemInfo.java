@@ -1,12 +1,23 @@
 package mx.bmx.dtc.dtc_sender.entity;
 
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 
 /**
  * Системная информация.
- * @param  serviceId     Название микросервиса-инициатора.
+ * serviceId     Название микросервиса-инициатора.
  */
-public record InSystemInfo(String serviceId, @Size(max = 10) String systemId, @Size(max = 10) String subSystemId) {
+@Builder
+@Data
+@AllArgsConstructor
+public class InSystemInfo {
+    String serviceId;
 
+    @Size(max = 10)
+    private String systemId;
+
+    @Size(max = 10)
+    private String subSystemId;
 }

@@ -1,12 +1,20 @@
 package mx.bmx.dtc.dtc_sender.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
 import java.util.List;
 
 /**
  * Финансовая транзакция.
- * @param debit      Информация о счетах списания.
- * @param credit     Информация о счетах поступления.
+ * debit      Информация о счетах списания.
+ * credit     Информация о счетах поступления.
  */
-public record InTransactionData(List<InOperation> debit, List<InOperation> credit) {
-
+@Data
+@Builder
+@AllArgsConstructor
+public class InTransactionData {
+    private List<InOperation> debit;
+    private List<InOperation> credit;
 }
