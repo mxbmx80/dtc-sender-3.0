@@ -1,17 +1,42 @@
 server:
-  port: 8888
+  port: 8889
+logging:
+  config: ${LOGGING_CONFIG:classpath:logback.xml}
+  level:
+    root: ${LOGGING_LEVEL_ROOT:INFO}
+    web: ${LOGGING_LEVEL_ROOT:INFO}
+    ru.vtb.msa: ${LOGGING_LEVEL_MSA:INFO}
+    ru.vtb.omni.ac: ${LOGGING_LEVEL_ACLIB:WARN}
+    ru.vtb.msa.savings: ${LOGGING_LEVEL_APP:INFO}
+    ru.vtb.msa.mdclogging.formatter.SqlMessageLogFormatter: ${LOGGING_LEVEL_SQL:INFO}
+    org.springframework.web: ${LOGGING_LEVEL_SPRING:WARN}
+    org.apache.kafka.clients: ${LOGGING_LEVEL_KAFKA:WARN}
+    io.swagger: ${LOGGING_LEVEL_DEP:WARN}
+    ru.vtb.omni.jwt.webflux.filter: INFO
+    org.springframework.web.HttpLogging: WARN
+spring:
+  application:
+    name: savings-deposit
 dtc:
   connector:
     enabled: ${DTC_CONNECTOR_ENABLED:true}
     request-topic: ${DTC_CONN_REQ_TOPIC:in-message-topic}
+    response-topic: ${DTC_CONN_RESP_TOPIC:out-message-topic}
+    concurrency: ${DTC_CONN_CONCURRENCY:1}
+    consumer-enabled: ${DTC_CONN_CONSUMER_ENABLED:true}
+    error-handler: dtcDefaultErrorHandler
     kafka:
-      bootstrap-servers: localhost:9092
-      producer:
-        key-serializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-        acks: all # Гарантия доставки: all, 1, 0
-        retries: 3 # Количество повторных попыток при ошибке
-        properties:
-          spring.json.add.type.headers: false
+      bootstrap-servers: ${DTC_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
       security:
-        protocol: PLAINTEXT
+        protocol: ${DTC_KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
+      ssl:
+        enabled: ${DTC_KAFKA_SSL_ENABLED:false}
+        trust-store-location: ${DTC_KAFKA_SSL_TRUSTSTORE_LOCATION:}
+        trust-store-password: ${DTC_KAFKA_SSL_TRUSTSTORE_PASSWORD:}
+        trust-store-type: ${DTC_KAFKA_SSL_TRUSTSTORE_TYPE:JKS}
+        key-store-location: ${DTC_KAFKA_SSL_KEYSTORE_LOCATION:}
+        key-store-password: ${DTC_KAFKA_SSL_KEYSTORE_PASSWORD:}
+        key-store-type: ${DTC_KAFKA_SSL_KEYSTORE_TYPE:JKS}
+        key-password: ${DTC_KAFKA_SSL_KEY_PASSWORD:}
+      consumer:
+        group-id: ${KAFKA_DTC_CONN_GROUP:dtc-connector-group}

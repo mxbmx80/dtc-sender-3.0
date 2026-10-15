@@ -3,7 +3,7 @@ package mx.bmx.dtc.dtc_sender.endpoint;
 import jakarta.validation.Valid;
 import mx.bmx.dtc.dtc_sender.dto.EmptyResponseData;
 import mx.bmx.dtc.dtc_sender.dto.ResponseMessage;
-import mx.bmx.dtc.dtc_sender.entity.InMessage;
+import ru.vtb.dtc.api.input.InMessage;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/v1")
 public interface SenderApi {
     @PostMapping(value = "/message", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseMessage<EmptyResponseData> sendMessageToDTC(@RequestHeader(value = "x-call-id", required = false) String xCallId,
+    ResponseMessage<EmptyResponseData> sendMessageToDTC(@RequestHeader(value = "X-Call-ID") String xCallId,
+                                                        @RequestHeader(value = "X-Message-ID") String xMessageId,
+                                                        @RequestHeader(value = "replyTopic") String replyTopic,
                                                      @RequestBody @Valid InMessage inMessage) throws Exception;
 }

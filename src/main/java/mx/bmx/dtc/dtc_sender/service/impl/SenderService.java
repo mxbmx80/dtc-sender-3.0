@@ -3,14 +3,18 @@ package mx.bmx.dtc.dtc_sender.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mx.bmx.dtc.dtc_sender.config.DtcConnectorProperties;
-import mx.bmx.dtc.dtc_sender.entity.InMessage;
 import mx.bmx.dtc.dtc_sender.service.TransactionIdGenerator;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+import ru.vtb.dtc.api.input.InHeader;
+import ru.vtb.dtc.api.input.InMessage;
 
 import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 @Slf4j
 @Service
@@ -21,17 +25,28 @@ public class SenderService {
     private final KafkaTemplate<String, InMessage> kafkaTemplate;
     private final DtcConnectorProperties properties;
 
-    public String sendMessage(String xCallId, InMessage inMessage) {
+    public String sendMessage(String xCallId, String xMessageId, String replyTopic, InMessage inMessage) {
         var transactionId =  transactionIdGenerator.generate("TRN", "B", "TRNB", Clock.systemDefaultZone(), null);
-        inMessage.getHeader().setTransactionId(transactionId);
+        InHeader inHeader = new InHeader(transactionId, inMessage.getHeader().getScenarioId(), inMessage.getHeader().getInitiator(), inMessage.getHeader().getSentToDtcTime());
+
+
+        InMessage inMessage1 = new InMessage(inMessage.getTechInfo(), inHeader, inMessage.getTransactionInfo(),
+                inMessage.getTransactionData(), inMessage.getLegacyTransactionData(),
+                inMessage.getAdjustedTransactions(),
+                inMessage.getAdditionalInfo());
 
         var requestBuilder = MessageBuilder
-                .withPayload(inMessage)
-                .setHeader("x-call-id", xCallId)
+                .withPayload(inMessage1)
+                .setHeader("X-Call-ID", xCallId)
+                .setHeader("X-Message-ID", xMessageId)
+                .setHeader("replyTopic", replyTopic)
                 .setHeader(KafkaHeaders.TOPIC, properties.getRequestTopic());
         var request = requestBuilder.build();
 
-        kafkaTemplate.send(request).thenAccept(response -> log.debug("Message successfully sent at offset - {}", response.getRecordMetadata().offset()));;
+        Instant dateTime = request.getPayload().getHeader().getSentToDtcTime().atZone(ZoneId.systemDefault()).toInstant();
+        Instant dateTime1 = request.getPayload().getHeader().getSentToDtcTime().toInstant(ZoneOffset.UTC);
+
+        kafkaTemplate.send(request).thenAccept(response -> log.debug("Message successfully sent at offset - {}", response.getRecordMetadata().offset()));
 
 
         return transactionId;
